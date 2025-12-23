@@ -1,0 +1,23 @@
+name: Windows-RDP-2025
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Setting Up Remote Desktop
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication" -Value 1
+    - name: Install Ngrok & Connect
+      run: |
+        Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+        Expand-Archive ngrok.zip
+        # استبدل الكود أدناه بـ Authtoken الخاص بك من موقع Ngrok
+        .\ngrok.exe authtoken "ضَع_كود_الـ_AUTHTOKEN_هنا"
+        Start-Process .\ngrok.exe -ArgumentList "tcp 3389"
+    - name: Wait for Connection
+      run: |
+        $script = { while($true){ sleep 60 } }
+        Invoke-Command -ScriptBlock $script

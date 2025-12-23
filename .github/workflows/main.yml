@@ -15,7 +15,7 @@ jobs:
         Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
         Expand-Archive ngrok.zip
         # استبدل الكود أدناه بـ Authtoken الخاص بك من موقع Ngrok
-        .\ngrok.exe authtoken "ضَع_كود_الـ_AUTHTOKEN_هنا"
+        .\ngrok.exe authtoken "31bRwOPoJXHLXBD8L4lMqW7QHVN_4MArhYTk13MZP9TSiksh8"
         Start-Process .\ngrok.exe -ArgumentList "tcp 3389"
     - name: Wait for Connection
       run: |
